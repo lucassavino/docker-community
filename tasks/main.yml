@@ -1,0 +1,20 @@
+---
+# tasks file for docker.community
+- name: Garantir a instalacao do docker
+  apt: name={{ item }} update_cache=yes state=present
+  with_items:
+     - apt-transport-https
+     - ca-certificates
+     - curl
+     - software-properties-common
+
+- apt_key:
+	url: "https://download.docker.com/linux/ubuntu/gpg"
+	state: present
+
+- apt-repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    state: present
+
+-name: Instalando o Docker
+  apt: name=docker-ce update_cache=yes state=present
